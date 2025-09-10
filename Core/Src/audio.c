@@ -23,8 +23,8 @@ int16_t codecBuffer[BUFFER_SIZE]; // x samples X 2 channels (interleaved)
 
 
 float saw1, saw2;
-uint16_t saw1_freq = 220.0f;
-uint16_t saw2_freq = 330.0f;
+uint16_t saw1_freq = 220;
+uint16_t saw2_freq = 330;
 oscillator_t osc1;
 
 
@@ -57,6 +57,7 @@ void audioBlock(int16_t *output, int32_t samples)
         saw2 += increment2;
         if (saw2 > 1.0f)
             saw2 = saw2 - 2.0f;
+
         float sampleL = saw1;  // LEFT
         float sampleR = whiteNoise(&osc1);  // RIGHT
 
