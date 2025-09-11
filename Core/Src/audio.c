@@ -25,7 +25,7 @@ int16_t codecBuffer[BUFFER_SIZE]; // x samples X 2 channels (interleaved)
 float saw1, saw2;
 uint16_t saw1_freq = 220;
 uint16_t saw2_freq = 110;
-oscillator_t osc1, osc2;
+oscillator_t osc1;
 
 
 /**
@@ -40,8 +40,8 @@ void AUDIO_Init()
     BSP_AUDIO_OUT_Play((uint16_t *)codecBuffer, BUFFER_SIZE * 2);
 
     // initialize audio objects
-    osc_init(&osc1, 1.0f, 1000, 0, 0, 0);
-    osc_init(&osc2, 1.0f, 55, 0, 0, 0);
+ //   osc_init(&osc1, 1.0f, 1000, 0, 0, 0);
+    osc_init(&osc1, 1.0f, 110, 0, 0, 0);
 }
 
 void audioBlock(int16_t *output, int32_t samples)
@@ -59,7 +59,7 @@ void audioBlock(int16_t *output, int32_t samples)
         if (saw2 > 1.0f)
             saw2 = saw2 - 2.0f;
 
-        float sampleL = cordicSine(&osc2);  // LEFT
+        float sampleL = cordicSine(&osc1);  // LEFT
         float sampleR = sampleL;  // RIGHT
 
         output[i << 1] = ((int16_t) ((32767.0f) * sampleL));

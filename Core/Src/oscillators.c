@@ -7,12 +7,14 @@
  * @note
  */
 
-#include <math.h>
+
 #include <stdint.h>
 #include "help_func.h"
 #include "consts.h"
 #include "oscillators.h"
+#include "LUTs.h"
 
+uint16_t harmonics = 180;
 
 void osc_init(oscillator_t *osc, float amp, float freq, float FMindex, float FMratio, float pw)
 {
@@ -44,28 +46,32 @@ float whiteNoise(oscillator_t *osc)
 
 float cordicSine(oscillator_t *osc)
 {
-     osc->phase = wrap(osc->phase, 1);
-    float phase = TWOPI * osc->phase;
-     float fx = cosf(phase);
-     float fy = sinf(phase);
-    osc->phase += TS * osc->freq;  // increment phase (phase normalized from 0 to 1)
+    osc->phase = wrap(osc->phase, 1);
+
+    const float sinphase = osc->phase;
+    const float cosphase = wrap(sinphase + 0.25f, 1);
+
+    const float fx = lutLerp(LUT_SINE_SIZE * (sinphase), LUT_SINE_SIZE, lut_sine); // linear-interpolated sinewave
+    const float fy = lutLerp(LUT_SINE_SIZE * (cosphase), LUT_SINE_SIZE, lut_sine); // linear-interpolated sinewave
+
+
 
     float x = 0.f, y = 1.f;
-    float sumx = 0.f, sumy = 0.f;
+    float sumx = 0.f;
 
-    for (int i = 1; i <= 128; i++)
+    for (int i = 1; i <= harmonics; i++)
     {
         const float level = osc->amp / (float)i;
-        float oldx = x;
-        float oldy = y;
-        x = (oldx*fx - oldy*fy);
-        y = (oldx*fy + oldy*fx);
+        const float oldx = x;
+
+        x = x*fx - y*fy;
+        y = oldx*fy + y*fx;
         sumx = sumx + (x * level);
        // sumy = sumy + (y * level);
     }
     osc->output = sumx * ONEOVERPI;
 
-
+    osc->phase += TS * osc->freq;  // increment phase (phase normalized from 0 to 1)
     return osc->output;
 }
 

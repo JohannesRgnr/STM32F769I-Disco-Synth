@@ -71,15 +71,11 @@ static inline float SoftClip(float x)
     }
 }
 
-/**
- * @brief Constrain input value between lower and upper limits
- *
- * @param input
- * @param lower
- * @param upper
- * @return float
- */
+
 float clip(float input, float lower, float upper);
+
+
+float lutLerp(float index, uint16_t table_size, const float *table); // linear interpolation within a given lookup table
 
 
 

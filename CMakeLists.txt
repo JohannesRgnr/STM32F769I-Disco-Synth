@@ -40,6 +40,9 @@ add_executable(${CMAKE_PROJECT_NAME}
         Core/Src/usart.c
         Core/Src/oscillators.c
         Core/Src/help_func.c
+        Drivers/CMSIS/DSP/Source/CommonTables/arm_common_tables.c
+        Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c
+        Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_cos_f32.c
 
 )
 
@@ -65,6 +68,9 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined include paths
     Drivers/BSP/STM32F769I-Discovery
     Drivers/BSP/Components/wm8994
+    Drivers/CMSIS/Include
+    Drivers/CMSIS/Core/Include
+    Drivers/CMSIS/DSP/Include Drivers/CMSIS/Device/ST/STM32F7xx/Include
 )
 
 # Add project symbols (macros)

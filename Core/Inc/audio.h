@@ -20,7 +20,7 @@ extern SAI_HandleTypeDef haudio_out_sai;
 extern SAI_HandleTypeDef haudio_in_sai;
 
 
-#define BUFFER_SIZE         512             // size of the audio buffer (samples)
+#define BUFFER_SIZE         64             // size of the audio buffer (samples)
 #define BUFFER_SIZE_DIV_2   (BUFFER_SIZE/2)
 #define BUFFER_SIZE_DIV_4   (BUFFER_SIZE/4)
 

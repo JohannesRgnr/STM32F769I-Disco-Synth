@@ -32,7 +32,7 @@
 #define __CORE_CM7_H_GENERIC
 
 #include <stdint.h>
-
+#define __FPU_PRESENT             1U
 #ifdef __cplusplus
  extern "C" {
 #endif

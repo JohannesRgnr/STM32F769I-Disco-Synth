@@ -18,12 +18,14 @@
 
 extern uint16_t saw1_freq;
 extern uint16_t saw2_freq;
+extern uint16_t harmonics;
 
 static eCommandResult_T ConsoleCommandComment(const char buffer[]);
 static eCommandResult_T ConsoleCommandVer(const char buffer[]);
 static eCommandResult_T ConsoleCommandHelp(const char buffer[]);
 static eCommandResult_T ConsoleCommandParamSaw1(const char buffer[]);
 static eCommandResult_T ConsoleCommandParamSaw2(const char buffer[]);
+static eCommandResult_T ConsoleCommandParamHarm(const char buffer[]);
 
 
 static const sConsoleCommandTable_T mConsoleCommandTable[] =
@@ -33,6 +35,7 @@ static const sConsoleCommandTable_T mConsoleCommandTable[] =
     {"ver", ConsoleCommandVer, HELP("Get the version string")},
     {"saw1", ConsoleCommandParamSaw1, HELP("Specify left-channel sawtooth frequency: saw1 220")},
     {"saw2", ConsoleCommandParamSaw2, HELP("Specify right-channel sawtooth frequency: saw2 220")},
+	{"harm", ConsoleCommandParamHarm, HELP("Specify number of harmonics: harm 32")},
 
 	CONSOLE_COMMAND_TABLE_END // must be LAST
 };
@@ -85,6 +88,18 @@ static eCommandResult_T ConsoleCommandParamSaw2(const char buffer[])
 	if ( COMMAND_SUCCESS == result )
 	{
 		saw2_freq = parameterInt;
+	}
+	return result;
+}
+
+static eCommandResult_T ConsoleCommandParamHarm(const char buffer[])
+{
+	int16_t parameterInt;
+	eCommandResult_T result;
+	result = ConsoleReceiveParamInt16(buffer, 1, &parameterInt);
+	if ( COMMAND_SUCCESS == result )
+	{
+		harmonics = parameterInt;
 	}
 	return result;
 }
