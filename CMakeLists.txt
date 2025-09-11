@@ -39,6 +39,8 @@ add_executable(${CMAKE_PROJECT_NAME}
         Core/Src/consoleIo.c
         Core/Src/usart.c
         Core/Src/oscillators.c
+        Core/Src/help_func.c
+
 )
 
 # Add STM32CubeMX generated sources

@@ -24,8 +24,8 @@ int16_t codecBuffer[BUFFER_SIZE]; // x samples X 2 channels (interleaved)
 
 float saw1, saw2;
 uint16_t saw1_freq = 220;
-uint16_t saw2_freq = 330;
-oscillator_t osc1;
+uint16_t saw2_freq = 110;
+oscillator_t osc1, osc2;
 
 
 /**
@@ -34,13 +34,14 @@ oscillator_t osc1;
  */
 void AUDIO_Init()
 {
-    // initialize BSP audio device
+    // initialize board audio device
     BSP_AUDIO_OUT_Init(OUTPUT_DEVICE_HEADPHONE, 30, BSP_AUDIO_FREQUENCY_44K);
     BSP_AUDIO_OUT_SetAudioFrameSlot(CODEC_AUDIOFRAME_SLOT_02); // slots 0 and 2 activated for headphones out
     BSP_AUDIO_OUT_Play((uint16_t *)codecBuffer, BUFFER_SIZE * 2);
 
     // initialize audio objects
     osc_init(&osc1, 1.0f, 1000, 0, 0, 0);
+    osc_init(&osc2, 1.0f, 55, 0, 0, 0);
 }
 
 void audioBlock(int16_t *output, int32_t samples)
@@ -58,8 +59,8 @@ void audioBlock(int16_t *output, int32_t samples)
         if (saw2 > 1.0f)
             saw2 = saw2 - 2.0f;
 
-        float sampleL = saw1;  // LEFT
-        float sampleR = whiteNoise(&osc1);  // RIGHT
+        float sampleL = cordicSine(&osc2);  // LEFT
+        float sampleR = sampleL;  // RIGHT
 
         output[i << 1] = ((int16_t) ((32767.0f) * sampleL));
         output[(i << 1) + 1]  = ((int16_t) ((32767.0f) * sampleR));

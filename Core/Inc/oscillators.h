@@ -15,6 +15,8 @@
 
 
 
+
+
 enum osc_type
 {
     sine = 0,
@@ -29,8 +31,8 @@ typedef struct
     float amp;
     float freq;
     float phase;
-    float FM_index;
-    float FM_ratio;
+    float FMindex;
+    float FMratio;
     float pw;
     float output;
 } oscillator_t;
@@ -38,9 +40,9 @@ typedef struct
 
 
 
-void  osc_init(oscillator_t * osc, float amp, float freq, float mod, float freq_mult, float pw);
-float osc_Sine(oscillator_t * osc);
+void  osc_init(oscillator_t * osc, float amp, float freq, float FMindex, float FMratio, float pw);
 float whiteNoise(oscillator_t *osc);
+float cordicSine(oscillator_t * osc);
 
 
 #endif //MINIMAL_SAI_OSCILLATOR_H

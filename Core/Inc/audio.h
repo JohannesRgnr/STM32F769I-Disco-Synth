@@ -15,13 +15,17 @@
 #include <stdint.h>
 #include "stm32f769i_discovery_audio.h"
 
+
 extern SAI_HandleTypeDef haudio_out_sai;
 extern SAI_HandleTypeDef haudio_in_sai;
 
 
-#define BUFFER_SIZE         128             // size of the audio buffer (samples)
+#define BUFFER_SIZE         512             // size of the audio buffer (samples)
 #define BUFFER_SIZE_DIV_2   (BUFFER_SIZE/2)
 #define BUFFER_SIZE_DIV_4   (BUFFER_SIZE/4)
+
+#define INITIAL_VOLUME      90              // initial volume level.. TODO: give user control of the volume
+
 
 //
 // extern DFSDM_Filter_HandleTypeDef       haudio_in_dfsdm_leftfilter;
