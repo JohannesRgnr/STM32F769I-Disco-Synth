@@ -1,4 +1,4 @@
-A simple project to experiment with the SAI device and some audio processing routines.
+A simple project to experiment with the SAI device on STM32F7, and some audio processing routines.
 
 Implemented:
 - Fast white noise generator
