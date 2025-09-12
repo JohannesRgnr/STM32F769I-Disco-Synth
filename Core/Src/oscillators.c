@@ -49,13 +49,13 @@ float cordicAdditive(oscillator_t *osc)
     osc->phase = wrap(osc->phase, 1);
 
     const float sinphase = osc->phase;
-    // const float cosphase = wrap(sinphase + 0.25f, 1);
+    const float cosphase = wrap(sinphase + 0.25f, 1);
 
     //const float fx = lutLerp(LUT_SINE_SIZE * (sinphase), LUT_SINE_SIZE, lut_sine); // linear-interpolated sinewave
-    //const float fy = lutLerp(LUT_SINE_SIZE * (cosphase), LUT_SINE_SIZE, lut_sine); // linear-interpolated sinewave
+   //const float fy = lutLerp(LUT_SINE_SIZE * wrap(sinphase + 0.25f, 1), LUT_SINE_SIZE, lut_sine); // linear-interpolated sinewave
 
-    const float fx = sinf(sinphase);
-    const float fy = cosf(sinphase);
+    const float fx = sinf(TWOPI * sinphase);
+    const float fy = cosf(TWOPI * sinphase);
 
 
     float x = 0.f, y = 1.f;
@@ -69,7 +69,6 @@ float cordicAdditive(oscillator_t *osc)
         x = x*fx - y*fy;
         y = oldx*fy + y*fx;
         sumx = sumx + (x * level);
-       // sumy = sumy + (y * level);
     }
     osc->output = sumx * ONEOVERPI;
 
