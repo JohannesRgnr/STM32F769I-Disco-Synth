@@ -31,9 +31,9 @@ float clip(float input, float lower, float upper) {
  * @param table
  * @return float
  */
-float lutLerp(float index, uint16_t table_size, const float *table){
+float lutLerp(const float *table, uint16_t table_size, float index){
     uint32_t trunc = (uint32_t)index; // truncate the index but don't overwrite
-    float frac = index - trunc; // get the fractional part
+    const float frac = index - (float)trunc; // get the fractional part
 
     while (trunc > table_size)
         trunc = trunc - table_size;
@@ -41,7 +41,7 @@ float lutLerp(float index, uint16_t table_size, const float *table){
     // if (trunc == table_size-1)
     //     diff = table[0] - table[trunc]; // wrap
     // else
-    float diff = table[trunc + 1] - table[trunc]; // no need to check and wrap, table size is 1025
+    const float diff = table[trunc + 1] - table[trunc]; // no need to check and wrap, table size is 1025
 
     // get the interpolated output
     return table[trunc] + (diff * frac);

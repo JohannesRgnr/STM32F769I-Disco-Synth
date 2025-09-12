@@ -11,7 +11,7 @@
 #define MINIMAL_SAI_CONSTS_H
 
 
-#define FS                  44100     // selected samplerate
+#define FS                  44100.f     // selected samplerate
 /*  Actual samplerate is actually 41666 Hz (derived from I2S clock)..
 *   we take that into account for accurate tuning
 *                 0.2% off...   not so crucial, but well ....... */
@@ -20,7 +20,7 @@
 
 
 
-#define A0                  FS/correctedFS  // correcting factor for tuning
+#define A0                  (FS/correctedFS)  // correcting factor for tuning
 #define TS		            (1.f/FS)        // sampling period
 #define NYQUIST		        (FS/2.f)         // Nyquist frequency
 

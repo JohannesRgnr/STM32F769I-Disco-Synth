@@ -75,7 +75,7 @@ static inline float SoftClip(float x)
 float clip(float input, float lower, float upper);
 
 
-float lutLerp(float index, uint16_t table_size, const float *table); // linear interpolation within a given lookup table
+float lutLerp(const float *table, uint16_t table_size, float index); // linear interpolation within a given lookup table
 
 
 
