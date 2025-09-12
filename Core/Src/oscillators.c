@@ -14,7 +14,7 @@
 #include "oscillators.h"
 #include "LUTs.h"
 
-uint16_t harmonics = 180;
+uint16_t harmonics = 400;
 
 void osc_init(oscillator_t *osc, float amp, float freq, float FMindex, float FMratio, float pw)
 {
@@ -49,11 +49,13 @@ float cordicSine(oscillator_t *osc)
     osc->phase = wrap(osc->phase, 1);
 
     const float sinphase = osc->phase;
-    const float cosphase = wrap(sinphase + 0.25f, 1);
+    // const float cosphase = wrap(sinphase + 0.25f, 1);
 
-    const float fx = lutLerp(LUT_SINE_SIZE * (sinphase), LUT_SINE_SIZE, lut_sine); // linear-interpolated sinewave
-    const float fy = lutLerp(LUT_SINE_SIZE * (cosphase), LUT_SINE_SIZE, lut_sine); // linear-interpolated sinewave
+    //const float fx = lutLerp(LUT_SINE_SIZE * (sinphase), LUT_SINE_SIZE, lut_sine); // linear-interpolated sinewave
+    //const float fy = lutLerp(LUT_SINE_SIZE * (cosphase), LUT_SINE_SIZE, lut_sine); // linear-interpolated sinewave
 
+    const float fx = sinf(sinphase);
+    const float fy = cosf(sinphase);
 
 
     float x = 0.f, y = 1.f;
@@ -61,7 +63,7 @@ float cordicSine(oscillator_t *osc)
 
     for (int i = 1; i <= harmonics; i++)
     {
-        const float level = osc->amp / (float)i;
+        const float level = osc->amp * oneoverx[i];
         const float oldx = x;
 
         x = x*fx - y*fy;
