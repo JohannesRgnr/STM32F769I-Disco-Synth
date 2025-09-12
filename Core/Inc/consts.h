@@ -22,12 +22,12 @@
 
 #define A0                  FS/correctedFS  // correcting factor for tuning
 #define TS		            (1.f/FS)        // sampling period
-#define NYQUIST		        FS/2.f          // Nyquist frequency
+#define NYQUIST		        (FS/2.f)         // Nyquist frequency
 
 
 
-#define PI                  3.14159265359
-#define TWOPI               6.28318530718
+#define PI                  3.14159265359f
+#define TWOPI               6.28318530718f
 #define ONEOVERPI           (1.f/PI)
 
 //#define MIDI_MAX            127.f
