@@ -44,7 +44,7 @@ float whiteNoise(oscillator_t *osc)
 }
 
 
-float cordicSine(oscillator_t *osc)
+float cordicAdditive(oscillator_t *osc)
 {
     osc->phase = wrap(osc->phase, 1);
 

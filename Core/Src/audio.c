@@ -23,8 +23,8 @@ int16_t codecBuffer[BUFFER_SIZE]; // x samples X 2 channels (interleaved)
 
 
 float saw1, saw2;
-uint16_t saw1_freq = 220;
-uint16_t saw2_freq = 110;
+uint16_t saw1_freq = 55;
+uint16_t saw2_freq = 55;
 oscillator_t osc1;
 
 
@@ -48,18 +48,18 @@ void audioBlock(int16_t *output, int32_t samples)
 {
     // int16_t* out = output;
     // 0.0000226757 is 1.0/44100.0
-    const float increment1 = (float)saw1_freq * 2.0f * 0.0000226757f;
-    const float increment2 = (float)saw2_freq * 2.0f * 0.0000226757f;
+    // const float increment1 = (float)saw1_freq * 2.0f * 0.0000226757f;
+    // const float increment2 = (float)saw2_freq * 2.0f * 0.0000226757f;
     for (int i = 0; i < samples; i++)
     {
-        saw1 += increment1;
-        if (saw1 > 1.0f)
-            saw1 = saw1 - 2.0f;
-        saw2 += increment2;
-        if (saw2 > 1.0f)
-            saw2 = saw2 - 2.0f;
+        // saw1 += increment1;
+        // if (saw1 > 1.0f)
+        //     saw1 = saw1 - 2.0f;
+        // saw2 += increment2;
+        // if (saw2 > 1.0f)
+        //     saw2 = saw2 - 2.0f;
 
-        float sampleL = cordicSine(&osc1);  // LEFT
+        float sampleL = cordicAdditive(&osc1);  // LEFT
         float sampleR = sampleL;  // RIGHT
 
         output[i << 1] = ((int16_t) ((32767.0f) * sampleL));

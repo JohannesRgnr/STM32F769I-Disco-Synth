@@ -42,7 +42,7 @@ typedef struct
 
 void  osc_init(oscillator_t * osc, float amp, float freq, float FMindex, float FMratio, float pw);
 float whiteNoise(oscillator_t *osc);
-float cordicSine(oscillator_t * osc);
+float cordicAdditive(oscillator_t * osc);
 
 
 #endif //MINIMAL_SAI_OSCILLATOR_H
