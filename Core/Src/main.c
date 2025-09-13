@@ -134,9 +134,9 @@ int main(void)
   MX_DMA2D_Init();
   MX_DSIHOST_DSI_Init();
   MX_FMC_Init();
-  MX_HDMI_CEC_Init();
+  //MX_HDMI_CEC_Init();
   MX_LTDC_Init();
-  MX_DFSDM1_Init();
+  //MX_DFSDM1_Init();
   /* USER CODE BEGIN 2 */
  // HAL_UART_Transmit(&huart1, (uint8_t*)intro_string, strlen(intro_string), HAL_MAX_DELAY);
   /* Initialize the LCD */
