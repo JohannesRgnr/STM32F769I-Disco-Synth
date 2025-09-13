@@ -58,6 +58,7 @@ extern UART_HandleTypeDef huart1;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+static void CPU_CACHE_Enable(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -99,12 +100,7 @@ int main(void)
   /* USER CODE END 1 */
 
   /* Enable the CPU Cache */
-
-  /* Enable I-Cache---------------------------------------------------------*/
-  SCB_EnableICache();
-
-  /* Enable D-Cache---------------------------------------------------------*/
-  SCB_EnableDCache();
+  CPU_CACHE_Enable();
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -223,6 +219,22 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
+
+
+/**
+  * @brief  CPU L1-Cache enable.
+  * @param  None
+  * @retval None
+  */
+static void CPU_CACHE_Enable(void)
+{
+  /* Enable I-Cache */
+  SCB_EnableICache();
+
+  /* Enable D-Cache */
+  SCB_EnableDCache();
+}
+
 #ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
