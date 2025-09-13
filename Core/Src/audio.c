@@ -37,6 +37,7 @@ void AUDIO_Init()
     // initialize board audio device
     BSP_AUDIO_OUT_Init(OUTPUT_DEVICE_HEADPHONE, 30, BSP_AUDIO_FREQUENCY_44K);
     BSP_AUDIO_OUT_SetAudioFrameSlot(CODEC_AUDIOFRAME_SLOT_02); // slots 0 and 2 activated for headphones out
+    
     BSP_AUDIO_OUT_Play((uint16_t *)codecBuffer, BUFFER_SIZE * 2);
 
     // initialize audio objects

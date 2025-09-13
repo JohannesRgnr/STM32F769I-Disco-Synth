@@ -18,27 +18,26 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
-#include <stdio.h>
-#include <string.h>
-
+#include "dfsdm.h"
+#include "dma2d.h"
+#include "dsihost.h"
+#include "hdmi_cec.h"
 #include "i2c.h"
+#include "ltdc.h"
 #include "sai.h"
 #include "gpio.h"
-#include "usart.h"
-#include "audio.h"
-#include "lcd.h"
-#include "console.h"
+#include "fmc.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stm32f769i_discovery.h"
-
+#include "audio.h"
+#include "lcd.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-extern UART_HandleTypeDef huart1;
+// extern UART_HandleTypeDef huart1;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -60,7 +59,7 @@ extern UART_HandleTypeDef huart1;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-static void CPU_CACHE_Enable(void);
+void PeriphCommonClock_Config(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -102,7 +101,12 @@ int main(void)
   /* USER CODE END 1 */
 
   /* Enable the CPU Cache */
-  CPU_CACHE_Enable();
+
+  /* Enable I-Cache---------------------------------------------------------*/
+  SCB_EnableICache();
+
+  /* Enable D-Cache---------------------------------------------------------*/
+  SCB_EnableDCache();
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -116,6 +120,9 @@ int main(void)
   /* Configure the system clock */
   SystemClock_Config();
 
+  /* Configure the peripherals common clocks */
+  PeriphCommonClock_Config();
+
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
@@ -123,27 +130,36 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_I2C1_Init();
-  USART1_Init();
   MX_SAI1_Init();
+  MX_DMA2D_Init();
+  MX_DSIHOST_DSI_Init();
+  MX_FMC_Init();
+  MX_HDMI_CEC_Init();
+  MX_LTDC_Init();
+  MX_DFSDM1_Init();
+  /* USER CODE BEGIN 2 */
+ // HAL_UART_Transmit(&huart1, (uint8_t*)intro_string, strlen(intro_string), HAL_MAX_DELAY);
   /* Initialize the LCD */
   BSP_LCD_Init();
   /* Initialize the LCD Layers */
   BSP_LCD_LayerDefaultInit(LTDC_DEFAULT_ACTIVE_LAYER, LCD_FRAME_BUFFER);
-  /* USER CODE BEGIN 2 */
-  HAL_UART_Transmit(&huart1, (uint8_t*)intro_string, strlen(intro_string), HAL_MAX_DELAY);
+  BSP_LCD_DisplayOn();
   AUDIO_Init();
-  ConsoleInit();
-
+  // ConsoleInit();
   Display_Init();
+
+ // HAL_Delay(1000);
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-
-
   while (1)
   {
-    ConsoleProcess();
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }
@@ -169,8 +185,10 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM = 25;
@@ -205,6 +223,29 @@ void SystemClock_Config(void)
   }
 }
 
+/**
+  * @brief Peripherals Common Clock Configuration
+  * @retval None
+  */
+void PeriphCommonClock_Config(void)
+{
+  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
+
+  /** Initializes the peripherals clock
+  */
+  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_LTDC|RCC_PERIPHCLK_SAI1;
+  PeriphClkInitStruct.PLLSAI.PLLSAIN = 192;
+  PeriphClkInitStruct.PLLSAI.PLLSAIR = 2;
+  PeriphClkInitStruct.PLLSAI.PLLSAIQ = 6;
+  PeriphClkInitStruct.PLLSAI.PLLSAIP = RCC_PLLSAIP_DIV2;
+  PeriphClkInitStruct.PLLSAIDivQ = 3;
+  PeriphClkInitStruct.PLLSAIDivR = RCC_PLLSAIDIVR_2;
+  PeriphClkInitStruct.Sai1ClockSelection = RCC_SAI1CLKSOURCE_PLLSAI;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+}
 
 /* USER CODE BEGIN 4 */
 
@@ -224,22 +265,6 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
-
-
-/**
-  * @brief  CPU L1-Cache enable.
-  * @param  None
-  * @retval None
-  */
-static void CPU_CACHE_Enable(void)
-{
-  /* Enable I-Cache */
-  SCB_EnableICache();
-
-  /* Enable D-Cache */
-  SCB_EnableDCache();
-}
-
 #ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number

@@ -35,21 +35,8 @@ void Display_Init(void)
 
   /* Display LCD messages */
   BSP_LCD_SetFont(&Font12);
-  BSP_LCD_DisplayStringAt(2, 4, (uint8_t *)"Vol+", LEFT_MODE);
-  BSP_LCD_DisplayStringAt(2, BSP_LCD_GetYSize() - 16, (uint8_t *)"Vol-", LEFT_MODE);
-  BSP_LCD_DisplayStringAt(91, 8, (uint8_t *)"RESONATOR", LEFT_MODE);
-  BSP_LCD_DisplayStringAt(305, 8, (uint8_t *)"MOOG LP Filter", LEFT_MODE);
-  BSP_LCD_DisplayStringAt(320, BSP_LCD_GetYSize() - 16, (uint8_t *)"Current preset: Bell ", LEFT_MODE);
-
-
-  BSP_LCD_DisplayStringAt(50, BSP_LCD_GetYSize() - 16, (uint8_t *)"PRC", LEFT_MODE);
-  BSP_LCD_DisplayStringAt(130, BSP_LCD_GetYSize() - 16, (uint8_t *)"QT", LEFT_MODE);
-  BSP_LCD_DisplayStringAt(BSP_LCD_GetXSize() - 115, 225, (uint8_t *)"seq 1", LEFT_MODE);
-  BSP_LCD_SetTextColor(LCD_COLOR_GRAY);
-  BSP_LCD_DisplayStringAt(90, BSP_LCD_GetYSize() - 16, (uint8_t *)"SUS", LEFT_MODE);
-  BSP_LCD_DisplayStringAt(170, BSP_LCD_GetYSize() - 16, (uint8_t *)"FREE", LEFT_MODE);
-  BSP_LCD_DisplayStringAt(BSP_LCD_GetXSize() - 75, 225, (uint8_t *)"seq 2", LEFT_MODE);
-  BSP_LCD_DisplayStringAt(BSP_LCD_GetXSize() - 155, 225, (uint8_t *)"demo", LEFT_MODE);
+  BSP_LCD_DisplayStringAt(2, 4, (uint8_t *)"x= 2 y = 4", LEFT_MODE);
+  BSP_LCD_DisplayStringAt(2, BSP_LCD_GetYSize() - 16, (uint8_t *)"Getysize - 16", LEFT_MODE);
 
 
 

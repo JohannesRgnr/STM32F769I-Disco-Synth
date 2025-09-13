@@ -39,7 +39,6 @@ void MX_DSIHOST_DSI_Init(void)
   DSI_HOST_TimeoutTypeDef HostTimeouts = {0};
   DSI_PHY_TimerTypeDef PhyTimings = {0};
   DSI_LPCmdTypeDef LPCmd = {0};
-  DSI_CmdCfgTypeDef CmdCfg = {0};
 
   /* USER CODE BEGIN DSIHOST_Init 1 */
 
@@ -47,7 +46,7 @@ void MX_DSIHOST_DSI_Init(void)
   hdsi.Instance = DSI;
   hdsi.Init.AutomaticClockLaneControl = DSI_AUTO_CLK_LANE_CTRL_DISABLE;
   hdsi.Init.TXEscapeCkdiv = 4;
-  hdsi.Init.NumberOfLanes = DSI_TWO_DATA_LANES;
+  hdsi.Init.NumberOfLanes = DSI_ONE_DATA_LANE;
   PLLInit.PLLNDIV = 20;
   PLLInit.PLLIDF = DSI_PLL_IN_DIV1;
   PLLInit.PLLODF = DSI_PLL_OUT_DIV1;
@@ -73,7 +72,8 @@ void MX_DSIHOST_DSI_Init(void)
   PhyTimings.DataLaneHS2LPTime = 15;
   PhyTimings.DataLaneLP2HSTime = 25;
   PhyTimings.DataLaneMaxReadTime = 0;
-  PhyTimings.StopWaitTime = 10;
+  PhyTimings.StopWaitTime = 0;
+
   if (HAL_DSI_ConfigPhyTimer(&hdsi, &PhyTimings) != HAL_OK)
   {
     Error_Handler();
@@ -90,39 +90,20 @@ void MX_DSIHOST_DSI_Init(void)
   {
     Error_Handler();
   }
-  LPCmd.LPGenShortWriteNoP = DSI_LP_GSW0P_ENABLE;
-  LPCmd.LPGenShortWriteOneP = DSI_LP_GSW1P_ENABLE;
-  LPCmd.LPGenShortWriteTwoP = DSI_LP_GSW2P_ENABLE;
-  LPCmd.LPGenShortReadNoP = DSI_LP_GSR0P_ENABLE;
-  LPCmd.LPGenShortReadOneP = DSI_LP_GSR1P_ENABLE;
-  LPCmd.LPGenShortReadTwoP = DSI_LP_GSR2P_ENABLE;
-  LPCmd.LPGenLongWrite = DSI_LP_GLW_ENABLE;
-  LPCmd.LPDcsShortWriteNoP = DSI_LP_DSW0P_ENABLE;
-  LPCmd.LPDcsShortWriteOneP = DSI_LP_DSW1P_ENABLE;
-  LPCmd.LPDcsShortReadNoP = DSI_LP_DSR0P_ENABLE;
-  LPCmd.LPDcsLongWrite = DSI_LP_DLW_ENABLE;
-  LPCmd.LPMaxReadPacket = DSI_LP_MRDP_ENABLE;
+  LPCmd.LPGenShortWriteNoP = DSI_LP_GSW0P_DISABLE;
+  LPCmd.LPGenShortWriteOneP = DSI_LP_GSW1P_DISABLE;
+  LPCmd.LPGenShortWriteTwoP = DSI_LP_GSW2P_DISABLE;
+  LPCmd.LPGenShortReadNoP = DSI_LP_GSR0P_DISABLE;
+  LPCmd.LPGenShortReadOneP = DSI_LP_GSR1P_DISABLE;
+  LPCmd.LPGenShortReadTwoP = DSI_LP_GSR2P_DISABLE;
+  LPCmd.LPGenLongWrite = DSI_LP_GLW_DISABLE;
+  LPCmd.LPDcsShortWriteNoP = DSI_LP_DSW0P_DISABLE;
+  LPCmd.LPDcsShortWriteOneP = DSI_LP_DSW1P_DISABLE;
+  LPCmd.LPDcsShortReadNoP = DSI_LP_DSR0P_DISABLE;
+  LPCmd.LPDcsLongWrite = DSI_LP_DLW_DISABLE;
+  LPCmd.LPMaxReadPacket = DSI_LP_MRDP_DISABLE;
   LPCmd.AcknowledgeRequest = DSI_ACKNOWLEDGE_DISABLE;
   if (HAL_DSI_ConfigCommand(&hdsi, &LPCmd) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  CmdCfg.VirtualChannelID = 0;
-  CmdCfg.ColorCoding = DSI_RGB888;
-  CmdCfg.CommandSize = 400;
-  CmdCfg.TearingEffectSource = DSI_TE_EXTERNAL;
-  CmdCfg.TearingEffectPolarity = DSI_TE_RISING_EDGE;
-  CmdCfg.HSPolarity = DSI_HSYNC_ACTIVE_LOW;
-  CmdCfg.VSPolarity = DSI_VSYNC_ACTIVE_LOW;
-  CmdCfg.DEPolarity = DSI_DATA_ENABLE_ACTIVE_HIGH;
-  CmdCfg.VSyncPol = DSI_VSYNC_FALLING;
-  CmdCfg.AutomaticRefresh = DSI_AR_ENABLE;
-  CmdCfg.TEAcknowledgeRequest = DSI_TE_ACKNOWLEDGE_ENABLE;
-  if (HAL_DSI_ConfigAdaptedCommandMode(&hdsi, &CmdCfg) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  if (HAL_DSI_SetGenericVCID(&hdsi, 0) != HAL_OK)
   {
     Error_Handler();
   }
@@ -155,9 +136,6 @@ void HAL_DSI_MspInit(DSI_HandleTypeDef* dsiHandle)
     GPIO_InitStruct.Alternate = GPIO_AF13_DSI;
     HAL_GPIO_Init(DSIHOST_TE_GPIO_Port, &GPIO_InitStruct);
 
-    /* DSI interrupt Init */
-    HAL_NVIC_SetPriority(DSI_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(DSI_IRQn);
   /* USER CODE BEGIN DSI_MspInit 1 */
 
   /* USER CODE END DSI_MspInit 1 */
@@ -180,8 +158,6 @@ void HAL_DSI_MspDeInit(DSI_HandleTypeDef* dsiHandle)
     */
     HAL_GPIO_DeInit(DSIHOST_TE_GPIO_Port, DSIHOST_TE_Pin);
 
-    /* DSI interrupt Deinit */
-    HAL_NVIC_DisableIRQ(DSI_IRQn);
   /* USER CODE BEGIN DSI_MspDeInit 1 */
 
   /* USER CODE END DSI_MspDeInit 1 */

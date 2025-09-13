@@ -34,14 +34,14 @@ enable_language(C ASM)
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME}
         Core/Src/audio.c
-        Core/Src/console.c
-        Core/Src/consoleCommands.c
-        Core/Src/consoleIo.c
-        Core/Src/usart.c
+#        Core/Src/console.c
+#        Core/Src/consoleCommands.c
+#        Core/Src/consoleIo.c
+#        Core/Src/usart.c
         Core/Src/oscillators.c
         Core/Src/help_func.c
         Core/Src/lcd.c
-        Core/Src/lcd.h
+
 
         #        Utilities/Fonts/font8.c
 #        Utilities/Fonts/font12.c
@@ -74,7 +74,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Drivers/BSP/Components/adv7533/adv7533.c
     Drivers/BSP/Components/nt35510/nt35510.c
     # Utilities/Fonts
-    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dfsdm.c
+    #Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dfsdm.c
 )
 
 # Add include paths
