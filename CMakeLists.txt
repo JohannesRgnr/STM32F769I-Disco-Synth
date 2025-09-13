@@ -40,11 +40,12 @@ add_executable(${CMAKE_PROJECT_NAME}
         Core/Src/usart.c
         Core/Src/oscillators.c
         Core/Src/help_func.c
-        Utilities/Fonts/font8.c
-        Utilities/Fonts/font12.c
-        Utilities/Fonts/font16.c
-        Utilities/Fonts/font20.c
-        Utilities/Fonts/font24.c
+
+        #        Utilities/Fonts/font8.c
+#        Utilities/Fonts/font12.c
+#        Utilities/Fonts/font16.c
+#        Utilities/Fonts/font20.c
+#        Utilities/Fonts/font24.c
         #        Drivers/CMSIS/DSP/Source/CommonTables/arm_common_tables.c
 #        Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c
 #        Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_cos_f32.c
@@ -69,6 +70,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Drivers/BSP/Components/wm8994/wm8994.c
     Drivers/BSP/Components/otm8009a/otm8009a.c
     Drivers/BSP/Components/adv7533/adv7533.c
+    Drivers/BSP/Components/nt35510/nt35510.c
     # Utilities/Fonts
     Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dfsdm.c
 )
@@ -80,6 +82,7 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     Drivers/BSP/Components/wm8994
     Drivers/BSP/Components/adv7533
     Drivers/BSP/Components/otm8009a
+    Drivers/BSP/Components/nt35510
     Drivers/CMSIS/Include
     Drivers/CMSIS/Core/Include
     Drivers/CMSIS/DSP/Include Drivers/CMSIS/Device/ST/STM32F7xx/Include
