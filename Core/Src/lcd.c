@@ -67,6 +67,6 @@ void Display_partials(void)
 	uint32_t hLength = BSP_LCD_GetXSize() - 64;
 	for (int i = 0; i < 16; i++)
 	{
-		BSP_LCD_DrawVLine(SawPartials[i] * (hLength / 16.f) + 32, 64, 128);
+		BSP_LCD_DrawVLine(ChordPartials[i] * (hLength / 16.f) + 32, 64, 128);
 	}
 }

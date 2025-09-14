@@ -41,7 +41,7 @@ add_executable(${CMAKE_PROJECT_NAME}
         Core/Src/oscillators.c
         Core/Src/help_func.c
         Core/Src/lcd.c
-
+        Core/Src/usart.c
 
 
         #        Utilities/Fonts/font8.c

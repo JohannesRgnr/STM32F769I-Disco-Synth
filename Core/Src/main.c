@@ -25,6 +25,7 @@
 #include "i2c.h"
 #include "ltdc.h"
 #include "sai.h"
+#include "usart.h"
 #include "gpio.h"
 #include "fmc.h"
 
@@ -33,11 +34,12 @@
 #include "stm32f769i_discovery.h"
 #include "audio.h"
 #include "lcd.h"
+#include "usart.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-// extern UART_HandleTypeDef huart1;
+extern UART_HandleTypeDef huart1;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -134,11 +136,12 @@ int main(void)
   MX_DMA2D_Init();
   MX_DSIHOST_DSI_Init();
   MX_FMC_Init();
-  //MX_HDMI_CEC_Init();
+  MX_HDMI_CEC_Init();
   MX_LTDC_Init();
-  //MX_DFSDM1_Init();
+  MX_DFSDM1_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
- // HAL_UART_Transmit(&huart1, (uint8_t*)intro_string, strlen(intro_string), HAL_MAX_DELAY);
+  HAL_UART_Transmit(&huart1, (uint8_t*)intro_string, strlen(intro_string), HAL_MAX_DELAY);
   /* Initialize the LCD */
   BSP_LCD_Init();
   /* Initialize the LCD Layers */

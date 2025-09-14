@@ -53,8 +53,6 @@
      PC13   ------> RTC_OUT
      PG9   ------> SDMMC2_D0
      PD2   ------> UART5_RX
-     PA10   ------> USART1_RX
-     PA9   ------> USART1_TX
      PI11   ------> USB_OTG_HS_ULPI_DIR
      PC9   ------> QUADSPI_BK1_IO0
      PA8   ------> RCC_MCO_1
@@ -269,22 +267,6 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   GPIO_InitStruct.Alternate = GPIO_AF8_UART5;
   HAL_GPIO_Init(WIFI_TX_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : VCP_RX_Pin */
-  GPIO_InitStruct.Pin = VCP_RX_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF7_USART1;
-  HAL_GPIO_Init(VCP_RX_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : VCP_TX_Pin */
-  GPIO_InitStruct.Pin = VCP_TX_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  GPIO_InitStruct.Alternate = GPIO_AF7_USART1;
-  HAL_GPIO_Init(VCP_TX_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : ULPI_DIR_Pin */
   GPIO_InitStruct.Pin = ULPI_DIR_Pin;
