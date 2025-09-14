@@ -78,6 +78,11 @@ extern sFONT Font20;
 extern sFONT Font16;
 extern sFONT Font12;
 extern sFONT Font8;
+extern sFONT FontMenlo32;
+extern sFONT FontInconsolataNerdFont20;
+extern sFONT FontInconsolataNerdFont32;
+
+
 /**
   * @}
   */ 

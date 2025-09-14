@@ -81,6 +81,11 @@ EndDependencies */
 #include "../../../Utilities/Fonts/font16.c"
 #include "../../../Utilities/Fonts/font12.c"
 #include "../../../Utilities/Fonts/font8.c"
+#include "../../../Utilities/Fonts/menlo32.c"
+#include "../../../Utilities/Fonts/FontInconsolataNerdFont20.c"
+#include "../../../Utilities/Fonts/FontInconsolataNerdFont32.c"
+
+
 
 /** @addtogroup BSP
   * @{

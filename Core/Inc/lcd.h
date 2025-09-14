@@ -14,8 +14,9 @@
 
 #define LCD_FRAME_BUFFER          SDRAM_DEVICE_ADDR
 
- void Display_Default(void);
- void Display_Init(void);
+void Display_Default(void);
+void Display_Init(void);
+void Display_partials(void);
 
 
 
