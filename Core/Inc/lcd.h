@@ -16,7 +16,7 @@
 
 void Display_Default(void);
 void Display_Init(void);
-void Display_partials(void);
+
 
 
 

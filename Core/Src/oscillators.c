@@ -14,7 +14,7 @@
 #include "oscillators.h"
 #include "LUTs.h"
 
-uint16_t harmonics = 50;
+
 
 void osc_init(oscillator_t *osc, float amp, float freq, float FMindex, float FMratio, float pw)
 {
@@ -43,11 +43,50 @@ float whiteNoise(oscillator_t *osc)
     // return 0.5f*((float)seed * 0.000000000465661f + -1.0f);
 }
 
+
+void cordicAdditiveInit(cordic_t *osc, const float freq)
+{
+    osc->freq = freq;
+
+    for (int i = 0; i < harmonics; i++)
+    {
+        osc->real[i] = 0.f;
+        osc->imag[i] = 1.f;
+
+        osc->level[i] = 1.f / (float)(i + 1);
+        const float harmonicFrequency = osc->freq * (float)(i + 1);
+        const float phaseIncrement = 2.f * (float)(M_PI) * harmonicFrequency/FS;
+
+        osc->realinc[i] = cosf(phaseIncrement);
+        osc->imaginc[i] = sinf(phaseIncrement);
+    }
+}
 /**
  * An oscillator for additive synthesis
  * @param osc
  * @return Sum of sines
  */
+float cordicAdditiveProcess(cordic_t *osc)
+{
+    float sumImag = 0.f;
+
+    for (int i = 0; i < harmonics; i++)
+    {
+        const float oldreal = osc->real[i];
+
+        osc->real[i] = osc->real[i]*osc->realinc[i] - osc->imag[i]*osc->imaginc[i];
+        osc->imag[i] = oldreal*osc->imaginc[i] + osc->imag[i]*osc->realinc[i];
+        sumImag += osc->imag[i] * osc->level[i];
+    }
+    osc->output = sumImag * 0.1f;
+    return osc->output;
+}
+
+
+/** former version... weirdly more efficient ??
+ *
+ *
+ * */
 float cordicAdditive(oscillator_t *osc)
 {
     osc->phase = wrap(osc->phase, 1);
@@ -66,19 +105,18 @@ float cordicAdditive(oscillator_t *osc)
 
     for (int i = 1; i <= harmonics; i++)
     {
-        const float level = osc->amp * oneoverx[i];
+        const float level = osc->amp * oneoverx[i-1];
         const float oldx = x;
 
         x = x*fx - y*fy;
         y = oldx*fy + y*fx;
         sumx = sumx + (x * level);
     }
-    osc->output = sumx * ONEOVERPI;
+    osc->output = sumx * 0.1f;
 
     osc->phase += TS * osc->freq;  // increment phase (phase normalized from 0 to 1)
     return osc->output;
 }
-
 
 float sineAdditive(oscillator_t *osc)
 {
