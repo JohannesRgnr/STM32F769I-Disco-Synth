@@ -14,7 +14,7 @@
 #include <stdbool.h>
 
 
-#define harmonics   390
+#define harmonics   256
 
 
 enum osc_type
@@ -39,12 +39,12 @@ typedef struct
 
 typedef struct
 {
-    float freq;
     float level[harmonics];
     float real[harmonics];
     float imag[harmonics];
     float realinc[harmonics];
     float imaginc[harmonics];
+    float freq;
     float output;
 } cordic_t;
 

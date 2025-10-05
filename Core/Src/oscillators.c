@@ -48,14 +48,16 @@ void cordicAdditiveInit(cordic_t *osc, const float freq)
 {
     osc->freq = freq;
 
+
     for (int i = 0; i < harmonics; i++)
     {
         osc->real[i] = 0.f;
         osc->imag[i] = 1.f;
 
-        osc->level[i] = 1.f / (float)(i + 1);
+        // osc->level[i] = 1.f / (float)(i + 1);
+        osc->level[i] = oneoverx[i];;
         const float harmonicFrequency = osc->freq * (float)(i + 1);
-        const float phaseIncrement = 2.f * (float)(M_PI) * harmonicFrequency/FS;
+        const float phaseIncrement = 2.f * (float)(M_PI) * harmonicFrequency * TS;
 
         osc->realinc[i] = cosf(phaseIncrement);
         osc->imaginc[i] = sinf(phaseIncrement);
@@ -70,6 +72,7 @@ float cordicAdditiveProcess(cordic_t *osc)
 {
     float sumImag = 0.f;
 
+
     for (int i = 0; i < harmonics; i++)
     {
         const float oldreal = osc->real[i];
@@ -78,6 +81,7 @@ float cordicAdditiveProcess(cordic_t *osc)
         osc->imag[i] = oldreal*osc->imaginc[i] + osc->imag[i]*osc->realinc[i];
         sumImag += osc->imag[i] * osc->level[i];
     }
+
     osc->output = sumImag * 0.1f;
     return osc->output;
 }
