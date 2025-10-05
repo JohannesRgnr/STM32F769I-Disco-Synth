@@ -55,8 +55,10 @@ ENTRY(Reset_Handler)
 /* Specify the memory areas */
 MEMORY
 {
-RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 512K
-FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 2048K
+    DTCMRAM   ( rxw )   : ORIGIN = 0x20000000, LENGTH = 64K
+    ITCMRAM   ( rxw )   : ORIGIN = 0x00000000, LENGTH = 16K
+    RAM (xrw)      : ORIGIN = 0x20010000, LENGTH = 384K
+    FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 2048K
 }
 
 /* Highest address of the user mode stack */
@@ -236,6 +238,20 @@ SECTIONS
     . = ALIGN(8);
   } >RAM
 
+/* MODIFICATION STARTS HERE */
+.dtcm_data (NOLOAD):
+    {
+        . = ALIGN(4);
+        *(.dtcm_data)     /* Include data */
+        . = ALIGN(4);
+    } >DTCMRAM
+
+.itcm :
+    {
+        . = ALIGN(4);
+    } >ITCMRAM
+
+/* MODIFICATION ENDS HERE */
 
 
   /* Remove information from the standard libraries */

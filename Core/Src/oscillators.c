@@ -107,9 +107,9 @@ float cordicAdditive(oscillator_t *osc)
     float x = 0.f, y = 1.f;
     float sumx = 0.f;
 
-    for (int i = 1; i <= harmonics; i++)
+    for (int i = 0; i < harmonics; i++)
     {
-        const float level = osc->amp * oneoverx[i-1];
+        const float level = osc->amp * oneoverx[i];
         const float oldx = x;
 
         x = x*fx - y*fy;

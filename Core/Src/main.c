@@ -110,6 +110,8 @@ int main(void)
   /* Enable D-Cache---------------------------------------------------------*/
   SCB_EnableDCache();
 
+  //SCB_InvalidateDCache_by_Addr((uint32_t*)0x20000000, 0x10000);
+
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */

@@ -14,7 +14,7 @@
 #include <stdbool.h>
 
 
-#define harmonics   256
+#define harmonics   400
 
 
 enum osc_type

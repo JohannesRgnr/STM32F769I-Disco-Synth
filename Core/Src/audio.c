@@ -26,8 +26,8 @@ float saw1, saw2;
 uint16_t saw1_freq = 55;
 uint16_t saw2_freq = 55;
 // oscillator_t osc1, osc2;
-cordic_t cordic1;
-// oscillator_t osc1;
+// __attribute__((section(".dtcm_data"))) __attribute__((aligned(4))) cordic_t cordic1;
+__attribute__((section(".dtcm_data"))) __attribute__((aligned(4))) oscillator_t osc1;
 
 
 /**
@@ -43,8 +43,8 @@ void AUDIO_Init()
     BSP_AUDIO_OUT_Play((uint16_t *)codecBuffer, BUFFER_SIZE * 2);
 
     // initialize audio objects
-    // osc_init(&osc1, 1.0f, 55, 0, 0, 0);
-    cordicAdditiveInit(&cordic1, 55);
+    osc_init(&osc1, 1.0f, 55, 0, 0, 0);
+    // cordicAdditiveInit(&cordic1, 55);
     // HAL_Delay(500);
     // osc_init(&osc2, 1.0f, 110, 0, 0, 0);
 }
@@ -65,7 +65,8 @@ void audioBlock(int16_t *output, int32_t samples)
         //     saw2 = saw2 - 2.0f;
 
        // float sampleL = cordicAdditiveProcess(&cordic1);  // LEFT
-        float sampleL = cordicAdditiveProcess(&cordic1);
+       // float sampleL = cordicAdditiveProcess(&cordic1);
+        float sampleL = cordicAdditive(&osc1);
         int16_t sampleOut = (int16_t)(32767.0f * sampleL);
        // float sampleR = sampleL;  // RIGHT
 
