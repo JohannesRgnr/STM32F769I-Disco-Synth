@@ -19,7 +19,7 @@
  * @brief Audio Buffer - x samples X 2 channels = 2 * x samples
  * @note Channels are interleaved - LRLRLRLRLRLRLRLRLRLRLR - audioBuffer[frame << 1] audioBuffer[(frame << 1) + 1]
  */
-int16_t codecBuffer[BUFFER_SIZE]; // x samples X 2 channels (interleaved)
+__attribute__((section(".dtcm_data"))) __attribute__((aligned(4))) int16_t codecBuffer[BUFFER_SIZE]; // x samples X 2 channels (interleaved)
 
 
 float saw1, saw2;
@@ -49,7 +49,7 @@ void AUDIO_Init()
     // osc_init(&osc2, 1.0f, 110, 0, 0, 0);
 }
 
- void audioBlock(int16_t *output, int32_t samples)
+ void audioBlock(int16_t *output, const int32_t samples)
 {
     // int16_t* out = output;
     // 0.0000226757 is 1.0/44100.0
@@ -66,8 +66,8 @@ void AUDIO_Init()
 
        // float sampleL = cordicAdditiveProcess(&cordic1);  // LEFT
        // float sampleL = cordicAdditiveProcess(&cordic1);
-        float sampleL = cordicAdditive(&osc1);
-        int16_t sampleOut = (int16_t)(32767.0f * sampleL);
+        const float sampleL = cordicAdditive(&osc1);
+        const int16_t sampleOut = (int16_t)(32767.0f * sampleL);
        // float sampleR = sampleL;  // RIGHT
 
         output[i << 1] = sampleOut;
