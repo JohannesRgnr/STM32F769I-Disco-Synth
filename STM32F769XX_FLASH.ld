@@ -57,7 +57,7 @@ MEMORY
 {
     DTCMRAM   ( rxw )   : ORIGIN = 0x20000000, LENGTH = 64K
     ITCMRAM   ( rxw )   : ORIGIN = 0x00000000, LENGTH = 16K
-    RAM (xrw)      : ORIGIN = 0x20010000, LENGTH = 384K
+    RAM (xrw)      : ORIGIN = 0x20010000, LENGTH = 448K
     FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 2048K
 }
 
@@ -246,9 +246,11 @@ SECTIONS
         . = ALIGN(4);
     } >DTCMRAM
 
-.itcm :
+.itcm (NOLOAD):
     {
-        . = ALIGN(4);
+        . = ALIGN(1);
+        *(.itcm)     /* Include data */
+        . = ALIGN(1);
     } >ITCMRAM
 
 /* MODIFICATION ENDS HERE */

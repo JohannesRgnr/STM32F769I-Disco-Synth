@@ -49,7 +49,7 @@ void AUDIO_Init()
     // osc_init(&osc2, 1.0f, 110, 0, 0, 0);
 }
 
-void audioBlock(int16_t *output, int32_t samples)
+ void audioBlock(int16_t *output, int32_t samples)
 {
     // int16_t* out = output;
     // 0.0000226757 is 1.0/44100.0
