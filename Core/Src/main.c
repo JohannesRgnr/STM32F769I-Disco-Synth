@@ -142,16 +142,20 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   HAL_UART_Transmit(&huart1, (uint8_t*)intro_string, strlen(intro_string), HAL_MAX_DELAY);
+
+
+
   /* Initialize the LCD */
   BSP_LCD_Init();
   /* Initialize the LCD Layers */
   BSP_LCD_LayerDefaultInit(LTDC_DEFAULT_ACTIVE_LAYER, LCD_FRAME_BUFFER);
   BSP_LCD_DisplayOn();
-  AUDIO_Init();
   // ConsoleInit();
   Display_Init();
 
  // HAL_Delay(1000);
+  AUDIO_Init();
+
 
 
   /* USER CODE END 2 */

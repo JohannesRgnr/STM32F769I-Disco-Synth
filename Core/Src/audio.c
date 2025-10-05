@@ -26,7 +26,7 @@ float saw1, saw2;
 uint16_t saw1_freq = 55;
 uint16_t saw2_freq = 55;
 // oscillator_t osc1, osc2;
-cordic_t cordic1;
+// cordic_t cordic1;
 oscillator_t osc1;
 
 
