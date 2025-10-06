@@ -13,13 +13,17 @@
 #include "audio.h"
 #include "oscillators.h"
 
-
+/* Placed in DTCM.. Doesn't make any difference, as it looks like it's placed anyway by default at the beginning of the RAM otherwise */
 
 /**
  * @brief Audio Buffer - x samples X 2 channels = 2 * x samples
  * @note Channels are interleaved - LRLRLRLRLRLRLRLRLRLRLR - audioBuffer[frame << 1] audioBuffer[(frame << 1) + 1]
  */
-__attribute__((section(".dtcm_data"))) __attribute__((aligned(4))) int16_t codecBuffer[BUFFER_SIZE]; // x samples X 2 channels (interleaved)
+_DTCM_ int16_t codecBuffer[BUFFER_SIZE]; // x samples X 2 channels (interleaved)
+
+_DTCM_ oscillator_t osc1;
+
+
 
 
 float saw1, saw2;
@@ -27,7 +31,7 @@ uint16_t saw1_freq = 55;
 uint16_t saw2_freq = 55;
 // oscillator_t osc1, osc2;
 // __attribute__((section(".dtcm_data"))) __attribute__((aligned(4))) cordic_t cordic1;
-__attribute__((section(".dtcm_data"))) __attribute__((aligned(4))) oscillator_t osc1;
+
 
 
 /**

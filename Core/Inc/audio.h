@@ -14,6 +14,7 @@
 
 #include <stdint.h>
 #include "stm32f769i_discovery_audio.h"
+#include "consts.h"
 
 
 extern SAI_HandleTypeDef haudio_out_sai;
